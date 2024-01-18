@@ -1,21 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 require_relative 'provisioning/vbox.rb'
-VBoxUtils.check_version('7.0.6')
-Vagrant.require_version ">= 2.3.4"
-
-class VagrantPlugins::ProviderVirtualBox::Action::Network
-  def dhcp_server_matches_config?(dhcp_server, config)
-    true
-  end
-end
+VBoxUtils.check_version('7.0.14')
+Vagrant.require_version ">= 2.4.0"
 
 Vagrant.configure("2") do |config|
     # Box and hostname settings
-    config.vm.box = XXX
-    config.vm.box_version = XXX
+    config.vm.box = "XXX"
+    config.vm.box_version = "XXX"
     config.vm.box_check_update = XXX
-    config.vm.hostname = "XXX-aisi2223"
+    config.vm.hostname = "xxx2324"
 
     # Network and port forwarding settings
     config.vm.network "XXX", guest: XXX, host: XXX
@@ -43,7 +37,7 @@ Vagrant.configure("2") do |config|
 	
 	# Create the virtual disk if doesn't exist
 	unless File.exist?(disk)
-		vb.customize ["createmedium", "XXX", "--filename", XXX, "--format", "XXX", "--size", XXX]
+		vb.customize ["createmedium", "XXX", "--filename", disk, "--format", "XXX", "--size", XXX]
 	end
 
 	# Add storage SAS controller only when the VM is provisioned for the first time
@@ -57,7 +51,6 @@ Vagrant.configure("2") do |config|
 
     # Embedded provisioning through shell script
     config.vm.provision "shell", run: "XXX", inline: <<-SHELL
-	cp /vagrant/provisioning/sources.list /etc/apt
 	apt update
 	# Complete the following commands
 	apt install -y
@@ -68,5 +61,5 @@ Vagrant.configure("2") do |config|
     SHELL
     
     # Provisioning through an external shell script
-    config.vm.provision "shell", run: "XXX", path: "provisioning/script.sh", args: "XXX"
+    config.vm.provision "shell", run: "XXX", path: "provisioning/script.sh", args: "xxx2324"
 end
