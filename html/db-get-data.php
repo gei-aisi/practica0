@@ -1,4 +1,6 @@
 <?php
+   $database="X";
+   
   // Set address book variables
   isset($_REQUEST['mode']) ? $mode=$_REQUEST['mode'] : $mode="";
   isset($_REQUEST['id']) ? $id=$_REQUEST['id'] : $id="";
@@ -9,9 +11,9 @@
 
   try {
      // Connect to the database
-     $connect=mysqli_connect("192.168.56.11:3306", "root", "root", "XXX");
-     mysqli_select_db($connect, "XXX");
-     echo "<p style='color: green;'>DB connection: OK</p>";
+     $connect=mysqli_connect("192.168.56.11:3306", "root", "root", $database);
+     mysqli_select_db($connect, $database);
+     echo "<p style='color: green;'>DB connection: OK ($database)</p>";
   } catch(Exception $e) {
      echo "<p style='color: red;'>DB connection: FAILED (", $e->getMessage(), ")</p>";
      return;

@@ -1,15 +1,15 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 require_relative 'provisioning/vbox.rb'
-VBoxUtils.check_version('7.0.14')
-Vagrant.require_version ">= 2.4.1"
+VBoxUtils.check_version('7.1.6')
+Vagrant.require_version ">= 2.4.3"
 
 Vagrant.configure("2") do |config|
     # Box and hostname settings
     config.vm.box = "XXX"
     config.vm.box_version = "XXX"
     config.vm.box_check_update = XXX
-    config.vm.hostname = "xxx2324"
+    config.vm.hostname = "XXX" # You MUST use your prefix here
 
     # Network and port forwarding settings
     config.vm.network "XXX", guest: XXX, host: XXX
@@ -19,11 +19,11 @@ Vagrant.configure("2") do |config|
     # Synced folder
     config.vm.synced_folder "XXX", "XXX", mount_options: ["dmode=XXX,fmode=XXX"]
 
-    # Configure hostmanager and vbguest plugins
+    # Configure vbguest and hostmanager plugins
+    config.vbguest.auto_update = false
     config.hostmanager.enabled = XXX
     config.hostmanager.manage_host = XXX
     config.hostmanager.manage_guest = XXX
-    config.vbguest.auto_update = false
 
     # Provider-specific customizations (CPU, memory, disk...)
     config.vm.provider "virtualbox" do |vb|
@@ -33,11 +33,11 @@ Vagrant.configure("2") do |config|
 	vb.memory = XXX
 
 	sasController = "SAS Controller"
-	disk = "diskVM-SAS.vmdk"
+	diskFile = "VMdisk-SAS.vmdk"
 	
 	# Create the virtual disk if doesn't exist
-	unless File.exist?(disk)
-		vb.customize ["createmedium", "XXX", "--filename", disk, "--format", "XXX", "--size", XXX]
+	unless File.exist?(diskFile)
+		vb.customize ["createmedium", "XXX", "--filename", XXX, "--format", "XXX", "--size", XXX]
 	end
 
 	# Add storage SAS controller only when the VM is provisioned for the first time
@@ -57,9 +57,9 @@ Vagrant.configure("2") do |config|
 	systemctl
 	systemctl
 	mkfs.ext4
-	mkdir
+	mkdir -p
     SHELL
     
     # Provisioning through an external shell script
-    config.vm.provision "shell", run: "XXX", path: "provisioning/script.sh", args: "xxx2324"
+    config.vm.provision "shell", run: "XXX", path: "provisioning/script.sh", args: "XXX"
 end
