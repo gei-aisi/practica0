@@ -4,6 +4,12 @@ require_relative 'provisioning/vbox.rb'
 VBoxUtils.check_version('7.1.6')
 Vagrant.require_version ">= 2.4.3"
 
+class VagrantPlugins::ProviderVirtualBox::Action::Network
+  def dhcp_server_matches_config?(dhcp_server, config)
+    true
+  end
+end
+
 Vagrant.configure("2") do |config|
     # Box and hostname settings
     config.vm.box = "XXX"
