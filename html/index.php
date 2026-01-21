@@ -20,7 +20,7 @@
 <body onload="init()">
     <div class="container" style="text-align: center;"><div class="jumbotron">
     <p><img src="img/udc.png" style="max-width: 300px; width: auto;"></p>
-    <p><u>GEI AISI: 2024/2025</u></p>
+    <p><u>GEI AISI: 2025/2026</u></p>
     <p><img src="img/apache.png" style="max-width: 200px; width: auto;"></img></p>
     <p>Páxina web de <span id="myName"></span></p>
     <p><script>getURL();</script></p>

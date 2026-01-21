@@ -13,12 +13,12 @@
      // Connect to the database
      $connect=mysqli_connect("192.168.56.11:3306", "root", "root", $database);
      mysqli_select_db($connect, $database);
-     echo "<p style='color: green;'>DB connection: OK ($database)</p>";
+     Print "<p>Connection status to database <span style='color: blue;'>$database</span>: <span style='color: green;'>OK</span></p>";
   } catch(Exception $e) {
-     echo "<p style='color: red;'>DB connection: FAILED (", $e->getMessage(), ")</p>";
+     Print "<p>Connection status to database <span style='color: blue;'>$database</span>: <span style='color: red;'>FAILED (".$e->getMessage().")</span></p>";
      return;
   }
-      
+
 if ( $mode=="add")
  {
  Print '<h4 style="color: blue;">Add Contact</h4>
