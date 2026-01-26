@@ -67,5 +67,5 @@ Vagrant.configure("2") do |config|
     
     # VM provisioning through external shell scripts
     config.vm.provision "disk", type: "XXX", run: "XXX", path: "provisioning/manageDisk.sh", args: "XXX"
-    config.vm.provision "info", type: "XXX", run: "XXX", path: "provisioning/script.sh", args: "XXX"
+    config.vm.provision "info", type: "XXX", run: "never", path: "provisioning/script.sh", args: "XXX"
 end
