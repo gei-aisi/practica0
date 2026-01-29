@@ -17,7 +17,7 @@ fi
 # 'findmnt /' nos da la partición (ej. /dev/sda1)
 # 'lsblk -no pkname' nos da el disco padre de esa partición (ej. sda)
 ROOT_DISK=$(lsblk -no pkname $(findmnt -n -o SOURCE /))
-echo "El disco del sistema operativo es: $ROOT_DISK"
+echo "El disco del sistema operativo es: /dev/$ROOT_DISK"
 
 # Paso 2. Buscar el disco adicional (Cualquier sdX o vdX que NO sea el ROOT_DISK)
 # Listamos solo discos (-d), sin encabezados (-n), solo el nombre (-o NAME)
@@ -36,11 +36,20 @@ fi
 
 echo "Disco adicional detectado: $TARGET_DISK"
 
-# Paso 3. Configuración del montaje en fstab
+# Paso 3. Configuración del montaje en fstab usando el UUID
 # Añadir a /etc/fstab si no existe para que persista tras reiniciar
 if ! grep -q "$MOUNT_POINT" /etc/fstab; then
-    echo "Configurando montaje automático en fstab..."
-    echo "$TARGET_DISK $MOUNT_POINT ext4 defaults 0 0" >> /etc/fstab
+    # Obtener el UUID
+    UUID=$(lsblk -no UUID $TARGET_DISK)
+
+    if [ -z "$UUID" ]; then
+        echo "No se pudo encontrar el UUID para $TARGET_DISK (sin formato?)"
+    else
+        echo "Configurando montaje automático en fstab de $TARGET_DISK (UUID=$UUID)..."
+        echo "UUID=$UUID $MOUNT_POINT ext4 defaults,nofail 0 0" >> /etc/fstab
+    fi
+else
+    echo "El UUID ya está configurado en /etc/fstab."
 fi
 
 # Paso 4. Formatear el disco 
@@ -54,7 +63,13 @@ else
 fi
 
 # Paso 5. Montar el disco en su punto de montaje
-XXX
+# Comprobar si ya está montado
+if grep -qs "$TARGET_DISK" /proc/mounts; then
+    echo "El disco $TARGET_DISK ya está montado. Saltando mount."
+else
+    echo "Montando $TARGET_DISK en $MOUNT_POINT"
+    XXX
+fi
 
 #  Paso 6. Listar los sistemas de ficheros
 XXX
